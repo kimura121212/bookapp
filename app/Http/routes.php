@@ -30,13 +30,12 @@ Route::group(['middle' => ['web']], function () {
         //
         $validator = Validator::make($request->all(),[
             'name' => 'required|max:255',
-
         ]);
 
-        if($validator->fail()){
+        if($validator->fails()){
             return redirect('/')
             ->withInput()
-            ->withError($validator);
+            ->withErrors($validator);
         }
 
         $book = new Book; //Eloquant ORM
