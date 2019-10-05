@@ -19,14 +19,14 @@ use Illuminate\Http\Request;
 // });
 
 Route::group(['middle' => ['web']], function () {
-    Route::get('/', function(){
+    Route::get('/',['middleware' =>'auth',function(){
         //
         $books = Book::all();
         return view('books', [
             'books' => $books
         ]);
-    });
-    Route::post('/book', function(Request $request){
+    }]);
+    Route::post('/book',['middleware' =>'auth', function(Request $request){
         //
         $validator = Validator::make($request->all(),[
             'name' => 'required|max:255',
@@ -43,11 +43,13 @@ Route::group(['middle' => ['web']], function () {
         $book->save();
 
         return redirect('/');
-    });
-    Route::delete('/book/{book}', function(Book $book){
+    }]);
+    Route::delete('/book/{book}',['middleware' =>'auth', function(Book $book){
         //
         $book->delete();
 
         return redirect('/');
-    });
+    }]);
+
+    Route::auth();
 });
