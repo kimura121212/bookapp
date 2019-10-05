@@ -47,5 +47,8 @@ Route::group(['middle' => ['web']], function () {
     });
     Route::delete('/book/{book}', function(Book $book){
         //
+        $book->delete();
+
+        return redirect('/');
     });
 });
