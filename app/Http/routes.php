@@ -28,6 +28,22 @@ Route::group(['middle' => ['web']], function () {
     });
     Route::post('/book', function(Request $request){
         //
+        $validator = Validator::make($request->all(),[
+            'name' => 'required|max:255',
+
+        ]);
+
+        if($validator->fail()){
+            return redirect('/')
+            ->withInput()
+            ->withError($validator);
+        }
+
+        $book = new Book; //Eloquant ORM
+        $book->title = $request->name;
+        $book->save();
+
+        return redirect('/');
     });
     Route::delete('/book/{book}', function(Book $book){
         //
